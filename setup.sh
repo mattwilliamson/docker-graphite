@@ -5,9 +5,6 @@
 set -o errexit
 set -o verbose
 
-echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-
-apt-get update
 apt-get install -y python-software-properties
 apt-add-repository ppa:chris-lea/node.js
 apt-get update
