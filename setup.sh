@@ -6,7 +6,7 @@ set -o errexit
 set -o verbose
 
 apt-get install -y python-software-properties
-apt-add-repository ppa:chris-lea/node.js
+apt-add-repository -y ppa:chris-lea/node.js
 apt-get update
 
 apt-get install -y \
