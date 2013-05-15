@@ -85,3 +85,22 @@ cat << EOF > config.js
 EOF
 
 popd
+
+chown -R www-data.www-data /opt/graphite/storage
+
+cat << EOF > /etc/init/graphite-web.conf
+description     "Run graphite-web"
+
+start on runlevel [2345]
+stop on starting rc RUNLEVEL=[016]
+respawn
+
+script
+    gunicorn_django -D \\
+      --user www-data \\
+      --group www-data \\
+      --bind 0.0.0.0:80 \\
+      --pid /tmp/gunicorn.pid \\
+      /opt/graphite/webapp/graphite/settings.py
+end script
+EOF
