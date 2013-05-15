@@ -117,3 +117,15 @@ script
     exec sudo -u www-data /opt/statsd/bin/statsd config.js
 end script
 EOF
+
+cat << EOF > /etc/init/graphite-carbon-cache.conf
+description "graphite-carbon-cache"
+
+start on startup
+stop on shutdown
+
+expect fork
+respawn
+
+exec /opt/graphite/bin/carbon-cache.py start
+EOF
