@@ -15,7 +15,6 @@ apt-get install -y \
   libcairo2-dev \
   memcached \
   nodejs \
-  npm \
   pkg-config \
   python-cairo \
   python-dev \
