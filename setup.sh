@@ -56,7 +56,7 @@ mkdir -p /opt/graphite/storage/log/webapp
 
 pushd /opt/graphite/webapp/graphite
 
-cp -f local_settings.py.example
+cp -f local_settings.py.example \
       local_settings.py
 
 python manage.py syncdb
