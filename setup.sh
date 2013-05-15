@@ -89,18 +89,31 @@ popd
 chown -R www-data.www-data /opt/graphite/storage
 
 cat << EOF > /etc/init/graphite-web.conf
-description     "Run graphite-web"
+description "graphite-web"
 
-start on runlevel [2345]
-stop on starting rc RUNLEVEL=[016]
+start on startup
+stop on shutdown
 respawn
 
 script
-    gunicorn_django -D \\
+    gunicorn_django --daemon \\
       --user www-data \\
       --group www-data \\
       --bind 0.0.0.0:80 \\
       --pid /tmp/gunicorn.pid \\
       /opt/graphite/webapp/graphite/settings.py
+end script
+EOF
+
+cat << EOF > /etc/init/statsd.conf
+description "statsd"
+
+start on startup
+stop on shutdown
+
+script
+    chdir /opt/statsd
+
+    exec sudo -u www-data /opt/statsd/bin/statsd config.js
 end script
 EOF
