@@ -73,8 +73,13 @@ npm install
 cat << EOF > config.js
 {
   graphitePort: 2003,
-  graphiteHost: "0.0.0.0",
-  port: 8125
+  graphiteHost: "127.0.0.1",
+  port: 8125,
+  deleteCounters: true,
+  flushInterval: 10 * 1000,
+  graphite: {
+    legacyNamespace: false,
+  }
 }
 EOF
 
