@@ -96,7 +96,7 @@ stop on shutdown
 respawn
 
 script
-    gunicorn_django --daemon \\
+    gunicorn_django \\
       --user www-data \\
       --group www-data \\
       --bind 0.0.0.0:80 \\
