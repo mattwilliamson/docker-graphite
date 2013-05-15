@@ -10,6 +10,7 @@ apt-add-repository -y ppa:chris-lea/node.js
 apt-get update
 
 apt-get install -y \
+  build-essential \
   git \
   libcairo2 \
   libcairo2-dev \
