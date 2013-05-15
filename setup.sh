@@ -96,7 +96,7 @@ stop on shutdown
 respawn
 
 script
-    gunicorn_django \\
+    exec gunicorn_django \\
       --user www-data \\
       --group www-data \\
       --bind 0.0.0.0:80 \\
@@ -113,7 +113,6 @@ stop on shutdown
 
 script
     chdir /opt/statsd
-
     exec sudo -u www-data /opt/statsd/bin/statsd config.js
 end script
 EOF
@@ -124,10 +123,18 @@ description "graphite-carbon-cache"
 start on startup
 stop on shutdown
 
-expect fork
+expect daemon
 respawn
 
-exec sudo -u www-data /opt/graphite/bin/carbon-cache.py start
+exec start-stop-daemon \\
+  --oknodo \\
+  --chdir /opt/graphite \\
+  --user www-data \\
+  --chuid www-data \\
+  --pidfile /opt/graphite/storage/carbon-cache-a.pid \\
+  --name carbon-cache \\
+  --startas /opt/graphite/bin/carbon-cache.py \\
+  --start start
 EOF
 
 service graphite-carbon-cache start
