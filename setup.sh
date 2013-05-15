@@ -22,8 +22,6 @@ apt-get install -y \
   python-pip \
   sqlite3
 
-pip install --upgrade pip
-
 depsfile=$( tempfile )
 
 cat << EOF > $depsfile
@@ -33,6 +31,7 @@ django==1.3
 graphite-web==0.9.10
 python-memcached
 twisted
+gunicorn
 whisper==0.9.10
 EOF
 
