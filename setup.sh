@@ -127,5 +127,9 @@ stop on shutdown
 expect fork
 respawn
 
-exec /opt/graphite/bin/carbon-cache.py start
+exec sudo -u www-data /opt/graphite/bin/carbon-cache.py start
 EOF
+
+service graphite-carbon-cache start
+service graphite-web start
+service statsd start
