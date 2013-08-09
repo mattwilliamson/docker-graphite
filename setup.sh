@@ -22,7 +22,6 @@ apt-get install -y \
   python-pip \
   sqlite3
 
-#pip install --upgrade pip
 
 depsfile=$( tempfile )
 
