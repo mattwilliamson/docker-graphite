@@ -5,7 +5,7 @@
 set -o errexit
 set -o verbose
 
-apt-get install -y python-software-properties
+apt-get install -y python-software-properties python g++ make
 apt-add-repository -y ppa:chris-lea/node.js
 apt-get update
 
@@ -15,12 +15,29 @@ apt-get install -y \
   libcairo2 \
   libcairo2-dev \
   memcached \
-  nodejs \
   pkg-config \
   python-cairo \
   python-dev \
-  python-pip \
+  python-setuptools \
+  git \
+  sudo \
+  wget \
+  libssl-dev \
   sqlite3
+
+
+easy_install pip
+
+mkdir -p /usr/local/src/node
+pushd /usr/local/src/node
+wget http://nodejs.org/dist/v0.6.17/node-v0.6.17.tar.gz
+tar -xzvf node-v0.6.17.tar.gz
+cd node-v0.6.17
+./configure
+make
+make install
+popd
+
 
 
 depsfile=$( tempfile )
@@ -60,7 +77,7 @@ pushd /opt/graphite/webapp/graphite
 cp -f local_settings.py.example \
       local_settings.py
 
-python manage.py syncdb
+python manage.py syncdb --noinput
 
 popd
 
@@ -135,6 +152,10 @@ exec start-stop-daemon \\
   --startas /opt/graphite/bin/carbon-cache.py \\
   --start start
 EOF
+
+# Upstart+Docker Hack
+dpkg-divert --local --rename --add /sbin/initctl
+ln -s /bin/true /sbin/initctl
 
 service graphite-carbon-cache start
 service graphite-web start
